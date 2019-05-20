@@ -8,20 +8,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Date;
 
 @Component
 @Transactional(rollbackFor = DataIntegrityViolationException.class)
 public class UserDaoUtil {
 
-    @Autowired
-    private UserDao userDao;
+  @Autowired private UserDao userDao;
 
-    public void testOperations() {
-        userDao.save(
-                new User(1l,"log","pass","name","surname","2525550",new Timestamp(new Date().getTime()),0)
-        );
-
-    }
+  public void testOperations() {
+    userDao.create(
+        new User(
+            1l,
+            "log",
+            "pass",
+            "name",
+            "surname",
+            "2525550",
+            new Timestamp(new Date().getTime()),
+            0));
+  }
 }

@@ -20,77 +20,73 @@ import java.util.Objects;
 @Transactional
 public class RoleDaoImpl implements RoleDao {
 
-    public static final String USER_ROLE_ID = "user_role_id";
-    public static final String USER_ID = "user_id";
-    public static final String ROLE_NAME = "role_name";
-    public static final String LAST_CHANGE_DATE = "last_change_date";
+  private static final String USER_ROLE_ID = "user_role_id";
+  private static final String USER_ID = "user_id";
+  private static final String ROLE_NAME = "role_name";
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+  @Autowired private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+  @Autowired private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    /*Read from Result Set by column name*/
-    private Role getRoleRowMapper(ResultSet resultSet, int i) throws SQLException {
-        Role role = new Role();
-        role.setUserRoleId(resultSet.getLong(USER_ROLE_ID));
-        role.setUserId(resultSet.getLong(USER_ID));
-        role.setUserRole(resultSet.getString(ROLE_NAME));
-        role.setLastChangeDate(resultSet.getTimestamp(LAST_CHANGE_DATE));
-        return role;
-    }
+  /*Read from Result Set by column name*/
+  private Role getRoleRowMapper(ResultSet resultSet, int i) throws SQLException {
+    Role role = new Role();
+    role.setUserRoleId(resultSet.getLong(USER_ROLE_ID));
+    role.setUserId(resultSet.getLong(USER_ID));
+    role.setUserRole(resultSet.getString(ROLE_NAME));
+    return role;
+  }
 
-    private static final String SELECT_ALL_BY_USER_ID="select * from role where user_id = ?";
+  private static final String SELECT_ALL_BY_USER_ID = "select * from role where user_id = ?";
 
-    @Override
-    public List<Role> getRolesByUserId(Long userId) {
-        return jdbcTemplate.query(SELECT_ALL_BY_USER_ID, new Object[]{userId}, this::getRoleRowMapper);
-    }
+  @Override
+  public List<Role> getRolesByUserId(Long userId) {
+    return jdbcTemplate.query(SELECT_ALL_BY_USER_ID, new Object[] {userId}, this::getRoleRowMapper);
+  }
 
-    private static final String SELECT_ALL="select * from role";
-    @Override
-    public List<Role> findAll() {
-        return namedParameterJdbcTemplate.query(SELECT_ALL, this::getRoleRowMapper);
-    }
+  private static final String SELECT_ALL = "select * from role";
 
+  @Override
+  public List<Role> findAll() {
+    return namedParameterJdbcTemplate.query(SELECT_ALL, this::getRoleRowMapper);
+  }
 
+  private static final String SELECT_ALL_BY_ROLE_ID =
+      "select * from role where user_role_id = :userRoleId";
 
-    private static final String SELECT_ALL_BY_ROLE_ID="select * from role where user_role_id = :userRoleId";
-    @Override
-    public Role findById(Long id) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userRoleId", id);
+  @Override
+  public Role findById(Long id) {
+    MapSqlParameterSource params = new MapSqlParameterSource();
+    params.addValue("userRoleId", id);
 
-        return namedParameterJdbcTemplate.queryForObject(SELECT_ALL_BY_ROLE_ID, params, this::getRoleRowMapper);
-    }
+    return namedParameterJdbcTemplate.queryForObject(
+        SELECT_ALL_BY_ROLE_ID, params, this::getRoleRowMapper);
+  }
 
-    @Override
-    public void delete(Long id) {
+  @Override
+  public void delete(Long id) {}
 
-    }
+  private static final String INSERT_ROLE =
+      "INSERT INTO role (user_role, user_id) " + "VALUES (:userRole, :userId);";
 
-    private static final String INSERT_ROLE="INSERT INTO role (user_role, user_id) " +
-            "VALUES (:userRole, :userId);";
+  @Override
+  public Role create(Role entity) {
 
-    @Override
-    public Role save(Role entity) {
+    KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    MapSqlParameterSource params = new MapSqlParameterSource();
+    params.addValue("userRole", entity.getUserRole());
+    params.addValue("userId", entity.getUserId());
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userRole", entity.getUserRole());
-        params.addValue("userId", entity.getUserId());
+    namedParameterJdbcTemplate.update(INSERT_ROLE, params, keyHolder);
 
-        namedParameterJdbcTemplate.update(INSERT_ROLE, params, keyHolder);
+    long createdRoleId = Objects.requireNonNull(keyHolder.getKey()).longValue();
 
-        long createdRoleId = Objects.requireNonNull(keyHolder.getKey()).longValue();
+    return findById(createdRoleId);
+  }
 
-        return findById(createdRoleId);
-    }
-
-    @Override
-    public Role update(Role entity) {
-        return null;
-    }
+  @Override
+  public Role update(Role entity) {
+    return null;
+  }
 }

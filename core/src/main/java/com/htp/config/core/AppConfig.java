@@ -1,6 +1,5 @@
-package com.htp.domain.config.core;
+package com.htp.config.core;
 
-import com.htp.domain.config.swagger.SwaggerConfig;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -14,7 +13,5 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAspectJAutoProxy
 @EnableTransactionManagement(proxyTargetClass = true)
 @Import({DatabaseConfig.class, JdbcTemplateConfig.class})
-//@Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class})
-public class AppConfig {
-
-}
+// @Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class})
+public class AppConfig {}

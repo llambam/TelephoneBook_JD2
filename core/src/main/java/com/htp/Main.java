@@ -1,53 +1,52 @@
 package com.htp;
 
 import com.htp.domain.User;
-import com.htp.domain.config.core.AppConfig;
 import com.htp.repository.UserDao;
-import com.htp.repository.forTest.UserDaoUtil;
-import com.htp.repository.impl.UserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class Main extends SpringBootServletInitializer{
+public class Main {
 
-    @Autowired
-    private UserDao userDao;
+  @Autowired private UserDao userDao;
 
+  private void testSaveUser() {
+    userDao.create(
+        new User(
+            1l,
+            "log",
+            "pass",
+            "name",
+            "surname",
+            "2525550",
+            new Timestamp(new Date().getTime()),
+            0));
+  }
 
+  public Main() {}
 
-    private void testSaveUser(){
-        userDao.save(
-                new User(1l,"log","pass","name","surname","2525550",new Timestamp(new Date().getTime()),0)
-        );
-    }
+  public static void main(String[] args) {
 
-    public Main() {
-    }
+    //        SpringApplication.run(ApplicationStarter.class, args);
+    //        ConfigurableApplicationContext context = new
+    // AnnotationConfigApplicationContext(AppConfig.class);
 
-    public static void main(String[] args) {
+    //        UserDao userDao = (UserDao) context.getBean("userDaoImpl");
+    //        UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");
 
-        SpringApplication.run(ApplicationStarter.class, args);
-        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+    //        userDaoUtil.testOperations();
 
-//        UserDao userDao = (UserDao) context.getBean("userDaoImpl");
-        UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");
-
-        userDaoUtil.testOperations();
-
-//        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-//
-//        UserDao userDao = (UserDao) context.getBean("userDaoImpl");
-//        UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");
-//
-//        userDaoUtil.testOperations();
-//
-//        for (User user : userDao.findAll()) {
-//            System.out.println(user.toString());
-//        }
-    }
-
+    //        ConfigurableApplicationContext context = new
+    // AnnotationConfigApplicationContext(AppConfig.class);
+    //
+    //        UserDao userDao = (UserDao) context.getBean("userDaoImpl");
+    //        UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");
+    //
+    //        userDaoUtil.testOperations();
+    //
+    //        for (User user : userDao.findAll()) {
+    //            System.out.println(user.toString());
+    //        }
+  }
 }

@@ -1,4 +1,4 @@
-package com.htp.domain.config.swagger;
+package com.htp.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +12,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
+  @Bean
+  public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .select()
+        .apis(RequestHandlerSelectors.any())
+        .paths(PathSelectors.any())
+        .build();
+  }
 }
