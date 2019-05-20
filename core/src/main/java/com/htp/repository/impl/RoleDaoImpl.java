@@ -67,7 +67,7 @@ public class RoleDaoImpl implements RoleDao {
   public void delete(Long id) {}
 
   private static final String INSERT_ROLE =
-      "INSERT INTO role (user_role, user_id) " + "VALUES (:userRole, :userId);";
+      "INSERT INTO role (user_role, user_id) VALUES (:userRole, :userId);";
 
   @Override
   public Role create(Role entity) {

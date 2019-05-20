@@ -149,18 +149,32 @@ public class TelephonesDaoImpl implements TelephonesDao {
         return telephones.stream().map(Telephones::getUserId).collect(Collectors.toList());
     }
 
-    public static final String SEARCH_QUERY =
+    private static final String SEARCH_QUERY_NAME_SURNAME =
             "select * from telephones where lower(tel_name) LIKE lower(:query) or "
                     + "lower(tel_surname) LIKE lower(:query) limit :lim offset :off";
 
     @Override
-    public List<Telephones> search(String query, Integer limit, Integer offset) {
+    public List<Telephones> searchByNameAndSurname(String query, Integer limit, Integer offset) {
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("query", "%" + query + "%");
         params.addValue("lim", limit);
         params.addValue("off", offset);
 
-        return namedParameterJdbcTemplate.query(SEARCH_QUERY, params, this::getTelRowMapper);
+        return namedParameterJdbcTemplate.query(SEARCH_QUERY_NAME_SURNAME, params, this::getTelRowMapper);
+    }
+
+    private static final String SEARCH_QUERY_NUMBER =
+            "select * from telephones where lower(tel_number) LIKE lower(:query) limit :lim offset :off";
+
+
+    @Override
+    public List<Telephones> searchByNumber(String query, Integer limit, Integer offset) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("query", "%" + query + "%");
+        params.addValue("lim", limit);
+        params.addValue("off", offset);
+
+        return namedParameterJdbcTemplate.query(SEARCH_QUERY_NUMBER, params, this::getTelRowMapper);
     }
 }

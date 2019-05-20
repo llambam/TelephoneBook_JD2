@@ -1,4 +1,4 @@
-package com.htp.controller.requests;
+package com.htp.controller.reqest;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

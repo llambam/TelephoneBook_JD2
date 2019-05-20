@@ -152,7 +152,7 @@ public class UserDaoImpl implements UserDao {
     return users.stream().map(User::getUserId).collect(Collectors.toList());
   }
 
-  public static final String SEARCH_QUERY =
+  private static final String SEARCH_QUERY =
       "select * from user where lower(user_name) LIKE lower(:query) or "
           + "lower(user_surname) LIKE lower(:query) limit :lim offset :off";
 

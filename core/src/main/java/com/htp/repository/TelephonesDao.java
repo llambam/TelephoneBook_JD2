@@ -9,5 +9,7 @@ public interface TelephonesDao extends GenericDao<Telephones, Long> {
 
     List<Long> batchUpdate(List<Telephones> telephones);
 
-    List<Telephones> search(String query, Integer limit, Integer offset);
+    List<Telephones> searchByNameAndSurname(String query, Integer limit, Integer offset);
+    
+    List<Telephones> searchByNumber(String query, Integer limit, Integer offset);
 }

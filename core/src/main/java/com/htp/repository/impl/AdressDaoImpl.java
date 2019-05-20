@@ -156,7 +156,7 @@ public class AdressDaoImpl implements AdressDao {
     return adresses.stream().map(Adress::getUserId).collect(Collectors.toList());
   }
 
-//  public static final String SEARCH_QUERY =
+//  private static final String SEARCH_QUERY =
 //      "select * from adress where lower(tel_name) LIKE lower(:query) or "
 //          + "lower(tel_surname) LIKE lower(:query) limit :lim offset :off";
 
