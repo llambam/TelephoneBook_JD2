@@ -110,7 +110,7 @@ public class TelephonesDaoImpl implements TelephonesDao {
         params.addValue("telBlock", entity.getTelBlock());
         params.addValue("userId", entity.getUserId());
 
-        params.addValue("telId", entity.getUserId());
+        params.addValue("telId", entity.getTelId());
 
         namedParameterJdbcTemplate.update(CREATE_QUERY_UPDATE, params);
         return findById(entity.getUserId());
@@ -142,7 +142,7 @@ public class TelephonesDaoImpl implements TelephonesDao {
             params.addValue("telBlock", entity.getTelBlock());
             params.addValue("userId", entity.getUserId());
 
-            params.addValue("telId", entity.getUserId());
+            params.addValue("telId", entity.getTelId());
             batch.add(params);
         }
         namedParameterJdbcTemplate.batchUpdate(CREATE_QUERY_UPDATE, batch.toArray(new SqlParameterSource[batch.size()]));
