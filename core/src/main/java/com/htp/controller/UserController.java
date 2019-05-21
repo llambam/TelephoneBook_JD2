@@ -83,8 +83,8 @@ public class UserController {
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<User> updateUser(
-      @PathVariable("id") Long userId, @RequestBody User request) {
-    User user = userDao.findById(userId);
+      @PathVariable("id") Long id, @RequestBody User request) {
+    User user = userDao.findById(id);
     user.setLogin(request.getLogin());
     user.setPassword(request.getPassword());
     user.setUserName(request.getUserName());
@@ -139,8 +139,8 @@ public class UserController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<Long> deleteUser(@PathVariable("id") Long userId) {
-    userDao.delete(userId);
-    return new ResponseEntity<>(userId, HttpStatus.OK);
+  public ResponseEntity<Long> deleteUser(@PathVariable("id") Long id) {
+    userDao.delete(id);
+    return new ResponseEntity<>(id, HttpStatus.OK);
   }
 }

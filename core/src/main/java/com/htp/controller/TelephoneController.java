@@ -3,7 +3,6 @@ package com.htp.controller;
 
 import com.htp.controller.reqest.SearchCriteria;
 import com.htp.domain.Telephones;
-import com.htp.repository.AdressDao;
 import com.htp.repository.TelephonesDao;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ import java.util.List;
 public class TelephoneController {
     @Autowired
     private TelephonesDao telephonesDao;
-
-    @Autowired
-    private AdressDao adressDao;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -84,8 +80,8 @@ public class TelephoneController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Telephones> updateTelephones(
-            @PathVariable("id") Long telId, @RequestBody Telephones request) {
-        Telephones telephones = telephonesDao.findById(telId);
+            @PathVariable("id") Long id, @RequestBody Telephones request) {
+        Telephones telephones = telephonesDao.findById(id);
         telephones.setTelName(request.getTelName());
         telephones.setTelSurname(request.getTelSurname());
         telephones.setTelNumber(request.getTelNumber());
@@ -148,8 +144,8 @@ public class TelephoneController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Long> deleteTelephones(@PathVariable("id") Long userId) {
-        telephonesDao.delete(userId);
-        return new ResponseEntity<>(userId, HttpStatus.OK);
+    public ResponseEntity<Long> deleteTelephones(@PathVariable("id") Long id) {
+        telephonesDao.delete(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

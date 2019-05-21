@@ -22,7 +22,7 @@ public class RoleDaoImpl implements RoleDao {
 
   private static final String USER_ROLE_ID = "user_role_id";
   private static final String USER_ID = "user_id";
-  private static final String ROLE_NAME = "role_name";
+  private static final String ROLE_NAME = "user_role";
 
   @Autowired private JdbcTemplate jdbcTemplate;
 
