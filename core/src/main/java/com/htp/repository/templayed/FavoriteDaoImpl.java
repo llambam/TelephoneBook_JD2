@@ -1,4 +1,4 @@
-package com.htp.repository.impl;
+package com.htp.repository.templayed;
 
 import com.htp.domain.Favorite;
 import com.htp.repository.FavoriteDao;

@@ -1,4 +1,4 @@
-package com.htp.repository.impl;
+package com.htp.repository.templayed;
 
 import com.htp.domain.Adress;
 import com.htp.repository.AdressDao;
