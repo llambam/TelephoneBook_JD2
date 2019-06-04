@@ -28,7 +28,7 @@ create table role
     foreign key (user_id) references user (user_id)
 );
 
-create table telephones
+create table hTelephones
 (
   tel_id            int auto_increment
     primary key,
@@ -61,7 +61,7 @@ create table adress
   constraint Adress_fk0
     foreign key (user_id) references user (user_id),
   constraint Adress_fk1
-    foreign key (tel_id) references telephones (tel_id)
+    foreign key (tel_id) references hTelephones (tel_id)
 );
 
 create table favorite
@@ -74,5 +74,5 @@ create table favorite
   constraint Favorite_fk0
     foreign key (user_id) references user (user_id),
   constraint Favorite_fk1
-    foreign key (tel_id) references telephones (tel_id)
+    foreign key (tel_id) references hTelephones (tel_id)
 );

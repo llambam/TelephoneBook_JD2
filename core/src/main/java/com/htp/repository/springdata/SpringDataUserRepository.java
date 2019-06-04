@@ -7,10 +7,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface SpringDataUserDao
+public interface SpringDataUserRepository
     extends JpaRepository<HUser, Long>,
         CrudRepository<HUser, Long>,
         PagingAndSortingRepository<HUser, Long> {
 
-  List<HUser> findByUserId(Long userId);
+  HUser findByUserId(Long userId);
+
+  List<HUser> findAllByUserNameLike(String searchQuery);
 }
