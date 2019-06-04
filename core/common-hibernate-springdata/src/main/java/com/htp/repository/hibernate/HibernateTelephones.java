@@ -1,6 +1,6 @@
 package com.htp.repository.hibernate;
 
-import com.htp.domain.hibernate.HTelephones;
+import com.htp.domain.HTelephones;
 import com.htp.repository.GenericDao;
 
 import java.util.List;

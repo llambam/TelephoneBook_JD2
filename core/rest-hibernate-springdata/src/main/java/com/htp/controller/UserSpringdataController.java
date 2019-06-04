@@ -2,8 +2,8 @@ package com.htp.controller;
 
 import com.htp.controller.reqest.SearchCriteria;
 import com.htp.domain.User;
-import com.htp.domain.hibernate.HRole;
-import com.htp.domain.hibernate.HUser;
+import com.htp.domain.HRole;
+import com.htp.domain.HUser;
 import com.htp.repository.springdata.SpringDataRoleRepository;
 import com.htp.repository.springdata.SpringDataUserRepository;
 import io.swagger.annotations.*;

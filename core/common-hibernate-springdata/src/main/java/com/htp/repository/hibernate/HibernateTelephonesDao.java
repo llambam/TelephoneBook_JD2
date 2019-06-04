@@ -1,7 +1,7 @@
 package com.htp.repository.hibernate;
 
-import com.htp.domain.hibernate.HTelephones;
-import com.htp.domain.hibernate.HTelephones_;
+import com.htp.domain.HTelephones;
+import com.htp.domain.HTelephones_;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

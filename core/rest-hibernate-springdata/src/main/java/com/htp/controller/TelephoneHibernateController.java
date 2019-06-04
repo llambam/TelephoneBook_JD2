@@ -1,7 +1,7 @@
 package com.htp.controller;
 
 import com.htp.controller.reqest.SearchCriteria;
-import com.htp.domain.hibernate.HTelephones;
+import com.htp.domain.HTelephones;
 import com.htp.repository.hibernate.HibernateTelephonesDao;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
