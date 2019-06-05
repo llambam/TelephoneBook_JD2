@@ -1,9 +1,9 @@
-package com.htp.controller;
+package com.htp.controller.springdata;
 
 import com.htp.controller.reqest.SearchCriteria;
-import com.htp.domain.User;
 import com.htp.domain.HRole;
 import com.htp.domain.HUser;
+import com.htp.domain.User;
 import com.htp.repository.springdata.SpringDataRoleRepository;
 import com.htp.repository.springdata.SpringDataUserRepository;
 import io.swagger.annotations.*;
@@ -27,12 +27,6 @@ public class UserSpringdataController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<List<HUser>> getUsers() {
-    int size;
-    List<HUser> hUsers;
-    hUsers= springDataUserRepository.findAll();
-
-
-    size=hUsers.size();
 
     return new ResponseEntity<>(springDataUserRepository.findAll(), HttpStatus.OK);
   }
@@ -137,8 +131,7 @@ public class UserSpringdataController {
   @GetMapping("/search")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<List<HUser>> searchUsers(@ApiIgnore @ModelAttribute SearchCriteria search) {
-    List<HUser> searchResult =
-        springDataUserRepository.findAllByUserNameLike(search.getQuery());
+    List<HUser> searchResult = springDataUserRepository.findAllByUserNameLike(search.getQuery());
     return new ResponseEntity<>(searchResult, HttpStatus.OK);
   }
 

@@ -129,26 +129,24 @@ public class AdressDaoImpl implements AdressDao {
     return findById(entity.getUserId());
   }
 
-
-
   @Override
   public List<Long> batchUpdate(List<Adress> adresses) {
 
     List<SqlParameterSource> batch = new ArrayList<>();
     for (Adress entity : adresses) {
       MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("country", entity.getCountry());
-        params.addValue("city", entity.getCity());
-        params.addValue("street", entity.getStreet());
-        params.addValue("houseNumber", entity.getHouseNumber());
-        params.addValue("floor", entity.getFloor());
-        params.addValue("apartmentNumber", entity.getApartmentNumber());
-        params.addValue("userId", entity.getUserId());
-        params.addValue("telId", entity.getTelId());
-        params.addValue("adressBlock", entity.getAdressBlock());
-        params.addValue("usersAdress", entity.isUserAdress());
+      params.addValue("country", entity.getCountry());
+      params.addValue("city", entity.getCity());
+      params.addValue("street", entity.getStreet());
+      params.addValue("houseNumber", entity.getHouseNumber());
+      params.addValue("floor", entity.getFloor());
+      params.addValue("apartmentNumber", entity.getApartmentNumber());
+      params.addValue("userId", entity.getUserId());
+      params.addValue("telId", entity.getTelId());
+      params.addValue("adressBlock", entity.getAdressBlock());
+      params.addValue("usersAdress", entity.isUserAdress());
 
-        params.addValue("adressId", entity.getAdressId());
+      params.addValue("adressId", entity.getAdressId());
       batch.add(params);
     }
     namedParameterJdbcTemplate.batchUpdate(
@@ -156,9 +154,8 @@ public class AdressDaoImpl implements AdressDao {
     return adresses.stream().map(Adress::getUserId).collect(Collectors.toList());
   }
 
-//  private static final String SEARCH_QUERY =
-//      "select * from adress where lower(tel_name) LIKE lower(:query) or "
-//          + "lower(tel_surname) LIKE lower(:query) limit :lim offset :off";
-
+  //  private static final String SEARCH_QUERY =
+  //      "select * from adress where lower(tel_name) LIKE lower(:query) or "
+  //          + "lower(tel_surname) LIKE lower(:query) limit :lim offset :off";
 
 }

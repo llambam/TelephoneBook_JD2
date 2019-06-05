@@ -93,13 +93,12 @@ public class UserDaoImpl implements UserDao {
     return findById(createdUserId);
   }
 
-  private static final String CREATE_QUERY_UPDATE ="UPDATE user set login = :login, password= :password, " +
-          "user_name = :userName, user_surname = :userSurname, user_number = :userNumber, register_date= :registerDate, user_block= :userBlock where user_id = :userId";
-
+  private static final String CREATE_QUERY_UPDATE =
+      "UPDATE user set login = :login, password= :password, "
+          + "user_name = :userName, user_surname = :userSurname, user_number = :userNumber, register_date= :registerDate, user_block= :userBlock where user_id = :userId";
 
   @Override
   public User update(User entity) {
-
 
     MapSqlParameterSource params = new MapSqlParameterSource();
     params.addValue("login", entity.getLogin());
@@ -116,7 +115,6 @@ public class UserDaoImpl implements UserDao {
     return findById(entity.getUserId());
   }
 
-
   private static final String FIND_BY_ID = "select * from user where login = :login";
 
   @Override
@@ -128,10 +126,8 @@ public class UserDaoImpl implements UserDao {
     return namedParameterJdbcTemplate.queryForObject(FIND_BY_ID, params, this::getUserRowMapper);
   }
 
-
   @Override
   public List<Long> batchUpdate(List<User> users) {
-
 
     List<SqlParameterSource> batch = new ArrayList<>();
     for (User entity : users) {
@@ -146,8 +142,9 @@ public class UserDaoImpl implements UserDao {
 
       params.addValue("userId", entity.getUserId());
       batch.add(params);
-  }
-    namedParameterJdbcTemplate.batchUpdate(CREATE_QUERY_UPDATE, batch.toArray(new SqlParameterSource[batch.size()]));
+    }
+    namedParameterJdbcTemplate.batchUpdate(
+        CREATE_QUERY_UPDATE, batch.toArray(new SqlParameterSource[batch.size()]));
     return users.stream().map(User::getUserId).collect(Collectors.toList());
   }
 

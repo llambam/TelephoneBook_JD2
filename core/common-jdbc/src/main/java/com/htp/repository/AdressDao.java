@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface AdressDao extends GenericDao<Adress, Long> {
 
-    List<Long> batchUpdate(List<Adress> adresses);
-
+  List<Long> batchUpdate(List<Adress> adresses);
 }

@@ -1,4 +1,4 @@
-package com.htp.controller;
+package com.htp.controller.hibernate;
 
 import com.htp.controller.messages.ErrorMessage;
 import org.apache.log4j.Logger;
@@ -35,7 +35,6 @@ public class DefaultExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorMessage> handleOthersException(Exception e) {
-    /* Handles all other exceptions. Status code 500. */
     LOG.error(e.getMessage(), e);
     return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
   }

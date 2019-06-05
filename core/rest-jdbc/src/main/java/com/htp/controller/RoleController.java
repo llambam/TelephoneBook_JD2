@@ -32,8 +32,7 @@ public class RoleController {
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Role> getRoleById(
-      @ApiParam("Role Path Id") @PathVariable Long id) {
+  public ResponseEntity<Role> getRoleById(@ApiParam("Role Path Id") @PathVariable Long id) {
     Role role = roleDao.findById(id);
     return new ResponseEntity<>(role, HttpStatus.OK);
   }
@@ -70,11 +69,10 @@ public class RoleController {
   })
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<Role> updateRole(
-      @PathVariable("id") Long id, @RequestBody Role request) {
+  public ResponseEntity<Role> updateRole(@PathVariable("id") Long id, @RequestBody Role request) {
     Role role = roleDao.findById(id);
-      role.setUserId(request.getUserId());
-      role.setUserRole(request.getUserRole());
+    role.setUserId(request.getUserId());
+    role.setUserRole(request.getUserRole());
 
     return new ResponseEntity<>(role, HttpStatus.OK);
   }

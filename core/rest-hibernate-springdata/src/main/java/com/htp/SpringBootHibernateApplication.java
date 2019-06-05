@@ -27,71 +27,63 @@ import java.util.Properties;
 @EnableSwagger2
 @EnableAspectJAutoProxy
 @EnableTransactionManagement(proxyTargetClass = true)
-@SpringBootApplication(scanBasePackages = {"com.htp"},
-        exclude = {
-                JacksonAutoConfiguration.class,
-                HibernateJpaAutoConfiguration.class
-        })
-@Import({
-        DatabaseConfig.class,
-        JdbcTemplateConfig.class,
-        SwaggerConfig.class
-})
-
+@SpringBootApplication(
+    scanBasePackages = {"com.htp"},
+    exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class})
 public class SpringBootHibernateApplication extends SpringBootServletInitializer {
 
-    @Autowired
-    private Environment env;
+  @Autowired private Environment env;
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootHibernateApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(SpringBootHibernateApplication.class, args);
+  }
 
-    @Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
-        // Fix Postgres JPA Error:
-        // Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
-        // properties.put("hibernate.temp.use_jdbc_metadata_defaults",false);
+  @Autowired
+  @Bean(name = "sessionFactory")
+  public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
+    // Fix Postgres JPA Error:
+    // Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
+    // properties.put("hibernate.temp.use_jdbc_metadata_defaults",false);
 
-        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
+    LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 
-        // Package contain entity classes
-        factoryBean.setPackagesToScan("com.htp");
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setHibernateProperties(getAdditionalProperties());
-        factoryBean.afterPropertiesSet();
-        //
-        SessionFactory sf = factoryBean.getObject();
-        System.out.println("## getSessionFactory: " + sf);
-        return sf;
-    }
+    // Package contain entity classes
+    factoryBean.setPackagesToScan("com.htp");
+    factoryBean.setDataSource(dataSource);
+    factoryBean.setHibernateProperties(getAdditionalProperties());
+    factoryBean.afterPropertiesSet();
+    //
+    SessionFactory sf = factoryBean.getObject();
+    System.out.println("## getSessionFactory: " + sf);
+    return sf;
+  }
 
-    //Entity Manager
+  // Entity Manager
 
-    @Autowired
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean em
-                = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
-        em.setPackagesToScan("com.htp");
+  @Autowired
+  @Bean(name = "entityManagerFactory")
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+    em.setDataSource(dataSource);
+    em.setPackagesToScan("com.htp");
 
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(getAdditionalProperties());
+    JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+    em.setJpaVendorAdapter(vendorAdapter);
+    em.setJpaProperties(getAdditionalProperties());
 
-        return em;
-    }
+    return em;
+  }
 
-    private Properties getAdditionalProperties() {
-        Properties properties = new Properties();
+  private Properties getAdditionalProperties() {
+    Properties properties = new Properties();
 
-        // See: application.properties
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.put("hibernate.show_sql", "true");
-        properties.put(" current_session_context_class", "org.springframework.orm.hibernate5.SpringSessionContext");
-        return properties;
-    }
-
+    // See: application.properties
+    properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+    properties.put("hibernate.show_sql", "true");
+    properties.put(
+        " current_session_context_class",
+        "org.springframework.orm.hibernate5.SpringSessionContext");
+    return properties;
+  }
 }

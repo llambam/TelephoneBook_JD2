@@ -20,7 +20,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>htp</groupId>
             <artifactId>rest-jdbc</artifactId>

@@ -1,6 +1,5 @@
 package com.htp.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -16,161 +15,178 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userId")
 public class HUser {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "user_id")
+  private Long userId;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+  @Column(name = "login")
+  private String login;
 
-    @Column(name = "login")
-    private String login;
+  @Column(name = "password")
+  private String password;
 
-    @Column(name = "password")
-    private String password;
+  @Column(name = "user_name")
+  private String userName;
 
-    @Column(name = "user_name")
-    private String userName;
+  @Column(name = "user_surname")
+  private String userSurname;
 
-    @Column(name = "user_surname")
-    private String userSurname;
+  @Column(name = "user_number")
+  private String userNumber;
 
-    @Column(name = "user_number")
-    private String userNumber;
+  @Column(name = "register_date")
+  private Timestamp registerDate;
 
-    @Column(name = "register_date")
-    private Timestamp registerDate;
+  @Column(name = "user_block")
+  private Integer block;
 
-    @Column(name = "block")
-    private Integer block;
+  @JsonManagedReference
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
+  private HRole role;
 
+  @JsonManagedReference
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+  private Set<HFavorite> favorites = Collections.emptySet();
 
-    @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
-    private HRole role;
+  @JsonManagedReference
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+  private Set<HAdress> adresses = Collections.emptySet();
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<HFavorite> favorites = Collections.emptySet();
+  @JsonManagedReference
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+  private Set<HTelephones> telephones = Collections.emptySet();
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<HAdress> adresses = Collections.emptySet();
+  public HUser() {}
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<HTelephones> telephones= Collections.emptySet();
+  public HUser(
+      Long userId,
+      String login,
+      String password,
+      String userName,
+      String userSurname,
+      String userNumber,
+      Timestamp registerDate,
+      Integer block) {
+    this.userId = userId;
+    this.login = login;
+    this.password = password;
+    this.userName = userName;
+    this.userSurname = userSurname;
+    this.userNumber = userNumber;
+    this.registerDate = registerDate;
+    this.block = block;
+  }
 
+  public Long getUserId() {
+    return userId;
+  }
 
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
-    public HUser() {}
+  public String getLogin() {
+    return login;
+  }
 
-    public HUser(Long userId, String login, String password, String userName, String userSurname, String userNumber, Timestamp registerDate, Integer block) {
-        this.userId = userId;
-        this.login = login;
-        this.password = password;
-        this.userName = userName;
-        this.userSurname = userSurname;
-        this.userNumber = userNumber;
-        this.registerDate = registerDate;
-        this.block = block;
-    }
+  public void setLogin(String login) {
+    this.login = login;
+  }
 
-    public Long getUserId() {
-        return userId;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getLogin() {
-        return login;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getUserSurname() {
+    return userSurname;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setUserSurname(String userSurname) {
+    this.userSurname = userSurname;
+  }
 
-    public String getUserName() {
-        return userName;
-    }
+  public String getUserNumber() {
+    return userNumber;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public void setUserNumber(String userNumber) {
+    this.userNumber = userNumber;
+  }
 
-    public String getUserSurname() {
-        return userSurname;
-    }
+  public Timestamp getRegisterDate() {
+    return registerDate;
+  }
 
-    public void setUserSurname(String userSurname) {
-        this.userSurname = userSurname;
-    }
+  public void setRegisterDate(Timestamp registerDate) {
+    this.registerDate = registerDate;
+  }
 
-    public String getUserNumber() {
-        return userNumber;
-    }
+  public Integer getBlock() {
+    return block;
+  }
 
-    public void setUserNumber(String userNumber) {
-        this.userNumber = userNumber;
-    }
+  public void setBlock(Integer block) {
+    this.block = block;
+  }
 
-    public Timestamp getRegisterDate() {
-        return registerDate;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    HUser hUser = (HUser) o;
+    return Objects.equals(userId, hUser.userId)
+        && Objects.equals(login, hUser.login)
+        && Objects.equals(password, hUser.password)
+        && Objects.equals(userName, hUser.userName)
+        && Objects.equals(userSurname, hUser.userSurname)
+        && Objects.equals(userNumber, hUser.userNumber)
+        && Objects.equals(registerDate, hUser.registerDate)
+        && Objects.equals(block, hUser.block);
+  }
 
-    public void setRegisterDate(Timestamp registerDate) {
-        this.registerDate = registerDate;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        userId, login, password, userName, userSurname, userNumber, registerDate, block);
+  }
 
-    public Integer getBlock() {
-        return block;
-    }
-
-    public void setBlock(Integer block) {
-        this.block = block;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HUser hUser = (HUser) o;
-        return Objects.equals(userId, hUser.userId) &&
-                Objects.equals(login, hUser.login) &&
-                Objects.equals(password, hUser.password) &&
-                Objects.equals(userName, hUser.userName) &&
-                Objects.equals(userSurname, hUser.userSurname) &&
-                Objects.equals(userNumber, hUser.userNumber) &&
-                Objects.equals(registerDate, hUser.registerDate) &&
-                Objects.equals(block, hUser.block);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, login, password, userName, userSurname, userNumber, registerDate, block);
-    }
-
-
-    @Override
-    public String toString() {
-        return "HUser{" +
-                "userId=" + userId +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userSurname='" + userSurname + '\'' +
-                ", userNumber='" + userNumber + '\'' +
-                ", registerDate=" + registerDate +
-                ", block=" + block +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "HUser{"
+        + "userId="
+        + userId
+        + ", login='"
+        + login
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + ", userName='"
+        + userName
+        + '\''
+        + ", userSurname='"
+        + userSurname
+        + '\''
+        + ", userNumber='"
+        + userNumber
+        + '\''
+        + ", registerDate="
+        + registerDate
+        + ", block="
+        + block
+        + '}';
+  }
 }

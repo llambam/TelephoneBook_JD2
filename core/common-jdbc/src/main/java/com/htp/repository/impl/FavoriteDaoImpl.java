@@ -20,85 +20,82 @@ import java.util.Objects;
 @Transactional
 public class FavoriteDaoImpl implements FavoriteDao {
 
+  private static final String FAVORITE_ID = "favorite_id";
+  private static final String USER_ID = "user_id";
+  private static final String TEL_ID = "tel_id";
+  private static final String FAVORITE_BLOCK = "favorite_block";
 
-    private static final String FAVORITE_ID = "favorite_id";
-    private static final String USER_ID = "user_id";
-    private static final String TEL_ID = "tel_id";
-    private static final String FAVORITE_BLOCK = "favorite_block";
+  @Autowired private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+  @Autowired private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+  /*Read from Result Set by column name*/
+  private Favorite getFavRowMapper(ResultSet resultSet, int i) throws SQLException {
+    Favorite favorite = new Favorite();
+    favorite.setFavoriteId(resultSet.getLong(FAVORITE_ID));
+    favorite.setUserId(resultSet.getLong(USER_ID));
+    favorite.setTelId(resultSet.getLong(TEL_ID));
+    favorite.setFavoriteBlock(resultSet.getInt(FAVORITE_BLOCK));
+    return favorite;
+  }
 
-    /*Read from Result Set by column name*/
-    private Favorite getFavRowMapper(ResultSet resultSet, int i) throws SQLException {
-        Favorite favorite = new Favorite();
-        favorite.setFavoriteId(resultSet.getLong(FAVORITE_ID));
-        favorite.setUserId(resultSet.getLong(USER_ID));
-        favorite.setTelId(resultSet.getLong(TEL_ID));
-        favorite.setFavoriteBlock(resultSet.getInt(FAVORITE_BLOCK));
-        return favorite;
-    }
+  private static final String SELECT_ALL = "select * from favorite";
 
+  @Override
+  public List<Favorite> findAll() {
+    return namedParameterJdbcTemplate.query(SELECT_ALL, this::getFavRowMapper);
+  }
 
+  private static final String SELECT_ALL_BY_FAVORITE_ID =
+      "select * from favorite where favorite_id = :favoriteId";
 
-    private static final String SELECT_ALL = "select * from favorite";
+  @Override
+  public Favorite findById(Long id) {
+    MapSqlParameterSource params = new MapSqlParameterSource();
+    params.addValue("favoriteId", id);
 
-    @Override
-    public List<Favorite> findAll() {
-        return namedParameterJdbcTemplate.query(SELECT_ALL, this::getFavRowMapper);
-    }
+    return namedParameterJdbcTemplate.queryForObject(
+        SELECT_ALL_BY_FAVORITE_ID, params, this::getFavRowMapper);
+  }
 
-    private static final String SELECT_ALL_BY_FAVORITE_ID =
-            "select * from favorite where favorite_id = :favoriteId";
+  @Override
+  public void delete(Long id) {}
 
-    @Override
-    public Favorite findById(Long id) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("favoriteId", id);
+  private static final String INSERT_FAVORITE =
+      "INSERT INTO favorite (user_id, tel_id, favorite_block) "
+          + "VALUES (:userId, :telId, favoriteBlock);";
 
-        return namedParameterJdbcTemplate.queryForObject(
-                SELECT_ALL_BY_FAVORITE_ID, params, this::getFavRowMapper);
-    }
+  @Override
+  public Favorite create(Favorite entity) {
 
-    @Override
-    public void delete(Long id) {}
+    KeyHolder keyHolder = new GeneratedKeyHolder();
 
-    private static final String INSERT_FAVORITE =
-            "INSERT INTO favorite (user_id, tel_id, favorite_block) " + "VALUES (:userId, :telId, favoriteBlock);";
+    MapSqlParameterSource params = new MapSqlParameterSource();
+    params.addValue("userId", entity.getUserId());
+    params.addValue("telId", entity.getTelId());
+    params.addValue("favoriteBlock", entity.getFavoriteBlock());
 
-    @Override
-    public Favorite create(Favorite entity) {
+    namedParameterJdbcTemplate.update(INSERT_FAVORITE, params, keyHolder);
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    long createdRoleId = Objects.requireNonNull(keyHolder.getKey()).longValue();
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userId", entity.getUserId());
-        params.addValue("telId", entity.getTelId());
-        params.addValue("favoriteBlock", entity.getFavoriteBlock());
+    return findById(createdRoleId);
+  }
 
-        namedParameterJdbcTemplate.update(INSERT_FAVORITE, params, keyHolder);
+  private static final String CREATE_QUERY_UPDATE =
+      "UPDATE favorite set user_id= :userId, tel_id= :telId, "
+          + "favorite_block= :favoriteBlock where favorite_id= :favoriteId";
 
-        long createdRoleId = Objects.requireNonNull(keyHolder.getKey()).longValue();
+  @Override
+  public Favorite update(Favorite entity) {
+    MapSqlParameterSource params = new MapSqlParameterSource();
+    params.addValue("userId", entity.getUserId());
+    params.addValue("telId", entity.getTelId());
+    params.addValue("favoriteBlock", entity.getFavoriteBlock());
 
-        return findById(createdRoleId);
-    }
+    params.addValue("favoriteId", entity.getFavoriteId());
 
-    private static final String CREATE_QUERY_UPDATE ="UPDATE favorite set user_id= :userId, tel_id= :telId, " +
-            "favorite_block= :favoriteBlock where favorite_id= :favoriteId";
-
-    @Override
-    public Favorite update(Favorite entity) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userId", entity.getUserId());
-        params.addValue("telId", entity.getTelId());
-        params.addValue("favoriteBlock", entity.getFavoriteBlock());
-
-        params.addValue("favoriteId", entity.getFavoriteId());
-
-        namedParameterJdbcTemplate.update(CREATE_QUERY_UPDATE, params);
-        return findById(entity.getUserId());
-    }
+    namedParameterJdbcTemplate.update(CREATE_QUERY_UPDATE, params);
+    return findById(entity.getUserId());
+  }
 }
-

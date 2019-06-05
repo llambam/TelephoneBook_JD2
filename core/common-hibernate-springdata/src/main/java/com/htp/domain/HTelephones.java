@@ -42,109 +42,125 @@ public class HTelephones {
   private HUser user;
 
   @JsonManagedReference
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "hTelephones")
-    private HAdress adress;
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "telephones")
-    private Set<HFavorite> favorite= Collections.emptySet();
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "hTelephones")
+  private HAdress adress;
 
-    public HTelephones(String telName, String telSurname, String telNumber, Timestamp creationDate, Integer telBlock, HUser user) {
-        this.telName = telName;
-        this.telSurname = telSurname;
-        this.telNumber = telNumber;
-        this.creationDate = creationDate;
-        this.telBlock = telBlock;
-        this.user = user;
-    }
+  @JsonManagedReference
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "telephones")
+  private Set<HFavorite> favorite = Collections.emptySet();
 
-    public HTelephones() {
-    }
+  public HTelephones(
+      String telName,
+      String telSurname,
+      String telNumber,
+      Timestamp creationDate,
+      Integer telBlock,
+      HUser user) {
+    this.telName = telName;
+    this.telSurname = telSurname;
+    this.telNumber = telNumber;
+    this.creationDate = creationDate;
+    this.telBlock = telBlock;
+    this.user = user;
+  }
 
-    public Long getTelId() {
-        return telId;
-    }
+  public HTelephones() {}
 
-    public void setTelId(Long telId) {
-        this.telId = telId;
-    }
+  public Long getTelId() {
+    return telId;
+  }
 
-    public String getTelName() {
-        return telName;
-    }
+  public void setTelId(Long telId) {
+    this.telId = telId;
+  }
 
-    public void setTelName(String telName) {
-        this.telName = telName;
-    }
+  public String getTelName() {
+    return telName;
+  }
 
-    public String getTelSurname() {
-        return telSurname;
-    }
+  public void setTelName(String telName) {
+    this.telName = telName;
+  }
 
-    public void setTelSurname(String telSurname) {
-        this.telSurname = telSurname;
-    }
+  public String getTelSurname() {
+    return telSurname;
+  }
 
-    public String getTelNumber() {
-        return telNumber;
-    }
+  public void setTelSurname(String telSurname) {
+    this.telSurname = telSurname;
+  }
 
-    public void setTelNumber(String telNumber) {
-        this.telNumber = telNumber;
-    }
+  public String getTelNumber() {
+    return telNumber;
+  }
 
-    public Timestamp getCreationDate() {
-        return creationDate;
-    }
+  public void setTelNumber(String telNumber) {
+    this.telNumber = telNumber;
+  }
 
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
+  public Timestamp getCreationDate() {
+    return creationDate;
+  }
 
-    public Integer getTelBlock() {
-        return telBlock;
-    }
+  public void setCreationDate(Timestamp creationDate) {
+    this.creationDate = creationDate;
+  }
 
-    public void setTelBlock(Integer telBlock) {
-        this.telBlock = telBlock;
-    }
+  public Integer getTelBlock() {
+    return telBlock;
+  }
 
-    public HUser getUser() {
-        return user;
-    }
+  public void setTelBlock(Integer telBlock) {
+    this.telBlock = telBlock;
+  }
 
-    public void setUser(HUser user) {
-        this.user = user;
-    }
+  public HUser getUser() {
+    return user;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HTelephones that = (HTelephones) o;
-        return Objects.equals(telId, that.telId) &&
-                Objects.equals(telName, that.telName) &&
-                Objects.equals(telSurname, that.telSurname) &&
-                Objects.equals(telNumber, that.telNumber) &&
-                Objects.equals(creationDate, that.creationDate) &&
-                Objects.equals(telBlock, that.telBlock) &&
-                Objects.equals(user, that.user);
-    }
+  public void setUser(HUser user) {
+    this.user = user;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(telId, telName, telSurname, telNumber, creationDate, telBlock, user);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    HTelephones that = (HTelephones) o;
+    return Objects.equals(telId, that.telId)
+        && Objects.equals(telName, that.telName)
+        && Objects.equals(telSurname, that.telSurname)
+        && Objects.equals(telNumber, that.telNumber)
+        && Objects.equals(creationDate, that.creationDate)
+        && Objects.equals(telBlock, that.telBlock)
+        && Objects.equals(user, that.user);
+  }
 
-    @Override
-    public String toString() {
-        return "HTelephones{" +
-                "telId=" + telId +
-                ", telName='" + telName + '\'' +
-                ", telSurname='" + telSurname + '\'' +
-                ", telNumber='" + telNumber + '\'' +
-                ", creationDate=" + creationDate +
-                ", telBlock=" + telBlock +
-                ", user=" + user +
-                '}';
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(telId, telName, telSurname, telNumber, creationDate, telBlock, user);
+  }
+
+  @Override
+  public String toString() {
+    return "HTelephones{"
+        + "telId="
+        + telId
+        + ", telName='"
+        + telName
+        + '\''
+        + ", telSurname='"
+        + telSurname
+        + '\''
+        + ", telNumber='"
+        + telNumber
+        + '\''
+        + ", creationDate="
+        + creationDate
+        + ", telBlock="
+        + telBlock
+        + ", user="
+        + user
+        + '}';
+  }
 }

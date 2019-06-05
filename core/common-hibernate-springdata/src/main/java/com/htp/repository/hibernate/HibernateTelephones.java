@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface HibernateTelephones extends GenericDao<HTelephones, Long> {
 
+  List<HTelephones> searchByName(String query, Integer limit, Integer offset);
 
-    List<HTelephones> search(String query, Integer limit, Integer offset);
+  List<HTelephones> searchByTelephone(String query, Integer limit, Integer offset);
 }
